@@ -90,7 +90,6 @@ function addEmployee() {
             message: "Please enter the employee's manager's ID number. Press enter if the employee has no manager."
         }
     ]).then(function(answers) {
-        console.log(answers);
         connection.query(
             "INSERT INTO employee SET ?",
             {
@@ -114,7 +113,6 @@ function addEmployee() {
                         message: "Please enter the employee's salary."
                     }   
                 ]).then(function(answers) {
-                    console.log(answers);
                     connection.query(
                         "INSERT INTO role SET ?",
                         {
@@ -129,7 +127,6 @@ function addEmployee() {
                                 type: "input",
                                 message: "Please enter the department ID number.",
                             }).then(function(answer) {
-                                console.log(answer);
                                 connection.query(
                                     "INSERT INTO department SET ?",
                                     {
@@ -152,7 +149,6 @@ function addEmployee() {
 
 function viewEmployee() {
     connection.query("SELECT * FROM employee", function(err, results) {
-        console.log(results);
         if (err) throw err;
         inquirer.prompt([
             {
@@ -177,7 +173,6 @@ function viewEmployee() {
                 type: "boolean",
                 message: "Press enter key to continue"
             }).then(function(answer) {
-                console.log(answer);
                 init();
             });
             });
@@ -188,7 +183,6 @@ function viewEmployee() {
 
 function updateEmployee() {
     connection.query("SELECT * FROM employee", function(err, results) {
-        console.log(results);
         if (err) throw err;
         inquirer.prompt([
             {
@@ -267,7 +261,6 @@ function addRole() {
 
 function viewRole() {
     connection.query("SELECT * FROM role", function(err, results) {
-        console.log(results);
         if (err) throw err;
         inquirer.prompt([
             {
@@ -292,7 +285,6 @@ function viewRole() {
                 type: "boolean",
                 message: "Press enter key to continue"
             }).then(function(answer) {
-                console.log(answer);
                 init();
             });
         });
@@ -320,7 +312,6 @@ function addDepartment() {
 
 function viewDepartment() {
     connection.query("SELECT * FROM department", function(err, results) {
-        console.log(results);
         if (err) throw err;
         inquirer.prompt([
             {
@@ -345,7 +336,6 @@ function viewDepartment() {
                 type: "boolean",
                 message: "Press enter key to continue"
             }).then(function(answer) {
-                console.log(answer);
                 init();
             });
         });
