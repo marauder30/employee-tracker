@@ -139,12 +139,10 @@ function addEmployee() {
                                     function(err) {
                                         if (err) throw err;
                                         init();
-                                    }
-                                )
+                                    });
                             });
-                        }
-                    )
-                })
+                        });
+                });
                 
             }
         );
@@ -227,11 +225,8 @@ function updateEmployee() {
                     function (error) {
                         if (error) throw error;
                         init();
-                    }
-                  )
+                    });
                 }
-
-            
             });
 
     });
@@ -263,7 +258,7 @@ function addRole() {
         },
         function(err) {
             if (err) throw err;
-            console.log("Your role was added successfully!");
+            console.log("New role was added successfully!");
             init();
         });
     });
@@ -299,14 +294,28 @@ function viewRole() {
             }).then(function(answer) {
                 console.log(answer);
                 init();
-            })
-        })
-    })
+            });
+        });
+    });
 
 }
 
 function addDepartment() {
-
+    inquirer.prompt({
+        type: "input",
+        name: "new_department",
+        message: "Please enter the new department name."
+    }).then(function(answer) {
+        connection.query("INSERT INTO department SET ?",
+        {
+            name: answer.new_department
+        },
+        function(err) {
+            if (err) throw err;
+            console.log("New department was added successfully!")
+            init();
+        });
+    });
 }
 
 function viewDepartment() {
