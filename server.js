@@ -1,5 +1,6 @@
 const mysql = require("mysql");
 const inquirer = require("inquirer");
+const cTable = require("console.table");
 
 const connection = mysql.createConnection({
     host: 'localhost',
@@ -162,37 +163,145 @@ function viewEmployee() {
                 choices: function() {
                     var choiceArray = [];
                     for (var i = 0; i < results.length; i++) {
-                        console.log(results[i]);
-                      choiceArray.push(results[i]);
+                        console.table(results[i]);
+                      choiceArray.push(results[i].first_name);
                     }
+                    console.table(choiceArray);
                     return choiceArray;
                 },
                 message: "Please select an employee to view"
             }
         ]).then(function(answer) {
-            var chosenItem;
-            for (var i = 0; i < results.length; i++) {
-              if (results[i] === answer.choice) {
-                chosenItem = results[i];
-                return chosenItem;
-              }
-            }
-        });
 
-        init();
+            console.table(answer);
+            inquirer.prompt({
+                name: "clear",
+                type: "boolean",
+                message: "Press enter key to continue"
+            }).then(function(answer) {
+                console.log(answer);
+                init();
+            });
+            });
+
     });
 
 }
 
 function updateEmployee() {
+    connection.query("SELECT * FROM employee", function(err, results) {
+        console.log(results);
+        if (err) throw err;
+        inquirer.prompt([
+            {
+                name: "choice",
+                type: "rawlist",
+                choices: function() {
+                    var choiceArray = [];
+                    for (var i = 0; i < results.length; i++) {
+                        console.table(results[i]);
+                      choiceArray.push(results[i].first_name);
+                    }
+                    console.table(choiceArray);
+                    return choiceArray;
+                },
+                message: "Please select an employee to update"
+            }
+        ]).then(function(answer) {
+                var chosenItem;
+                for (var i = 0; i < results.length; i++) {
+                  if (results[i].first_name === answer.choice) {
+                    chosenItem = results[i];
+                  }
+                  console.log(chosenItem.title);
+                  connection.query(
+                    "UPDATE role SET ? WHERE ?",
+                    [
+                        {
+                            title: answer.title
+                        },
+                        {
+                            id: chosenItem.id
+                        }
+                    ],
+                    function (error) {
+                        if (error) throw error;
+                        init();
+                    }
+                  )
+                }
 
+            
+            });
+
+    });
 }
 
 function addRole() {
+    inquirer.prompt([
+        {
+            type: "input",
+            name: "new_role",
+            message: "What type of role would you like to add?"
+        },
+        {
+            type: "input",
+            name: "new_salary",
+            message: "What should the salary be for the new role?"
+        },
+        {
+            type: "input",
+            name: "new_deptID",
+            message: "What is the department ID for the new role?"
+        }
+]).then(function(answer) {
+        connection.query("INSERT INTO role SET ?",
+        {
+            title: answer.new_role,
+            salary: answer.new_salary,
+            department_id: answer.new_deptID
+        },
+        function(err) {
+            if (err) throw err;
+            console.log("Your role was added successfully!");
+            init();
+        });
+    });
 
 }
 
 function viewRole() {
+    connection.query("SELECT * FROM role", function(err, results) {
+        console.log(results);
+        if (err) throw err;
+        inquirer.prompt([
+            {
+                name: "choice",
+                type: "rawlist",
+                choices: function() {
+                    var choiceArray = [];
+                    for (var i = 0; i < results.length; i++) {
+                        console.table(results[i]);
+                      choiceArray.push(results[i].title);
+                    }
+                    console.table(choiceArray);
+                    return choiceArray;
+                },
+                message: "Please select a role to view"
+            }
+        ]).then(function(answers) {
+            console.table(answers);
+            
+            inquirer.prompt({
+                name: "clear",
+                type: "boolean",
+                message: "Press enter key to continue"
+            }).then(function(answer) {
+                console.log(answer);
+                init();
+            })
+        })
+    })
 
 }
 
