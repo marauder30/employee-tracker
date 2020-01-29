@@ -3,23 +3,24 @@ CREATE DATABASE roster;
 
 USE roster;
 
-CREATE TABLE department(
+CREATE TABLE employee(
 id INT AUTO_INCREMENT NOT NULL,
-name VARCHAR(30) NOT NULL,
+first_name VARCHAR(30) NOT NULL,
+last_name VARCHAR(30) NOT NULL,
+roleID INT NOT NULL,
+manager_id INT NULL,
 PRIMARY KEY(id)
 );
 
 CREATE TABLE role(
 title VARCHAR(30) NOT NULL,
 salary DECIMAL(10,2) NOT NULL,
-department_id INT NULL
+department_id INT DEFAULT 1 NULL
 );
 
-CREATE TABLE employee(
-first_name VARCHAR(30) NOT NULL,
-last_name VARCHAR(30) NOT NULL,
-role_id INT NOT NULL,
-manager_id INT NULL
+
+CREATE TABLE department(
+name VARCHAR(30) NOT NULL
 );
 
 SELECT * FROM employee, role, department;
