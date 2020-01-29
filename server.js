@@ -319,5 +319,35 @@ function addDepartment() {
 }
 
 function viewDepartment() {
-
+    connection.query("SELECT * FROM department", function(err, results) {
+        console.log(results);
+        if (err) throw err;
+        inquirer.prompt([
+            {
+                name: "choice",
+                type: "rawlist",
+                choices: function() {
+                    var choiceArray = [];
+                    for (var i = 0; i < results.length; i++) {
+                        console.table(results[i]);
+                      choiceArray.push(results[i].title);
+                    }
+                    console.table(choiceArray);
+                    return choiceArray;
+                },
+                message: "Please select a department to view"
+            }
+        ]).then(function(answers) {
+            console.table(answers);
+            
+            inquirer.prompt({
+                name: "clear",
+                type: "boolean",
+                message: "Press enter key to continue"
+            }).then(function(answer) {
+                console.log(answer);
+                init();
+            });
+        });
+    });
 }
