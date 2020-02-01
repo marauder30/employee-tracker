@@ -87,7 +87,8 @@ function addEmployee() {
         {
             name: "manager_id",
             type: "input",
-            message: "Please enter the employee's manager's ID number. Press enter if the employee has no manager."
+            message: "Please enter the employee's manager's ID number. Press enter if the employee has no manager.",
+            default: null
         }
     ]).then(function(answers) {
         connection.query(
@@ -96,7 +97,7 @@ function addEmployee() {
                 first_name: answers.first_name,
                 last_name: answers.last_name,
                 roleID: answers.roleID,
-                manager_id: answers.manager_id || NULL
+                manager_id: answers.manager_id || null
             },
 
             function(err) {

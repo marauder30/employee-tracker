@@ -8,7 +8,7 @@ id INT AUTO_INCREMENT NOT NULL,
 first_name VARCHAR(30) NOT NULL,
 last_name VARCHAR(30) NOT NULL,
 roleID INT NOT NULL,
-manager_id INT NULL,
+manager_id INT DEFAULT NULL,
 PRIMARY KEY(id)
 );
 
